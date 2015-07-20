@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Network
+import json
 
 # Create your views here.
 
@@ -13,8 +14,9 @@ def submit_network(request):
     if request.method != 'POST':
         return JsonResponse({'details': 'not allowed'}, status=405)
 
-    bssid = request.POST.get('bssid')
-    name = request.POST.get('name')
+    d = json.loads(request.body)
+    bssid = d.get('bssid')
+    name = d.get('name')
     Network.objects.create(bssid=bssid, name=name)
 
     return JsonResponse(data={'bssid': bssid, 'name': name}, status=201)
