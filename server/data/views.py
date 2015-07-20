@@ -21,6 +21,6 @@ def submit_network(request):
 
 
 def network_list(request):
-    networks = list(Network.objects.values('bssid','name'))
+    networks = list(Network.objects.values('id', 'bssid', 'name'))
     response = JsonResponse(data=dict(networks=networks), safe=False)
     return response

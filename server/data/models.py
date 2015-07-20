@@ -8,8 +8,8 @@ class Network(models.Model):
     name = models.CharField(max_length=100)
     mod_time = models.DateTimeField('modification time', default=django.utils.timezone.now)
 
-    def __str__(self):
-        return ','.join([str(self.bssid), str(self.name)])
+    def __unicode__(self):
+        return ','.join([self.bssid, self.name])
 
 
 class PositionReport(models.Model):
