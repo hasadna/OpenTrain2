@@ -8,6 +8,7 @@
         bssid: "bssid2"
         name: "station2"
    - stops:
+   - in_station: false
 - test_run:
       - time: "07:00:00"
         bssids: "bssid3"
