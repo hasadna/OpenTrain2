@@ -5,7 +5,7 @@
         bssid: "bssid1"
         name: "station1"
    - stops:
-
+   - in_station: false
 - test_run:
       - time: "07:00:00"
         bssids: ""
