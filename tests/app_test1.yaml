@@ -10,8 +10,8 @@
    - stops:
 - test_run:
       - time: "07:00:00"
-      - bssids: "bssid3"
-      - after_processing_sample:
+        bssids: "bssid3"
+        after_processing_sample:
         - networks:
            - id: 1
              bssid: "bssid1"
