@@ -1,25 +1,29 @@
-- "description": "Discover a new bssid in the beginning of the run."
+- description: "Discover a new bssid in the beginning of the run."
 - test_setup:
    - networks:
       - id: 1
-        bssid: "bssid1"
-        name: "station1"
+        bssid: bssid1
+        name: station1
       - id: 2
-        bssid: "bssid2"
-        name: "station2"
+        bssid: bssid2
+        name: station2
    - stops:
    - in_station: false
 - test_run:
-      - time: "07:00:00"
-        bssids: "bssid3"
+      - time: 07:00:00
+        bssids: 
+          - bssid3
         after_processing_sample:
         - networks:
            - id: 1
-             bssid: "bssid1"
-             name: "station1"
+             bssid: bssid1
+             name: station1
            - id: 2
-             bssid: "bssid2"
-             name: "station2"
+             bssid: bssid2
+             name: station2
         - stops:
-            - new_1: "bssid3"
+            - new_1:
+              - bssids: 
+                - bssid3
+                enter_time: 07:00:00
         - in_station: true
