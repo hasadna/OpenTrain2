@@ -7,8 +7,8 @@
       - id: 2
         bssid: bssid2
         name: station2
-   - stops:
-   - in_station: false
+     stops:
+     in_station: false
 - test_run:
       - time: 07:00:00
         bssids: 
@@ -21,9 +21,9 @@
            - id: 2
              bssid: bssid2
              name: station2
-        - stops:
+          stops:
             - new_1:
               - bssids: 
                 - bssid3
                 enter_time: 07:00:00
-        - in_station: true
+          in_station: true
