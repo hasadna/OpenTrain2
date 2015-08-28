@@ -2,3 +2,9 @@ Django
 python-dateutil==2.2
 pytz==2013.8
 requests==2.0.1
+django-bootstrap3-datetimepicker==2.1.0
+# May not be required:
+django-appconf==0.6 
+django-extensions==1.2.5
+django-statici18n==1.1
+django-tastypie==0.11.0

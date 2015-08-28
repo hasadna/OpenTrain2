@@ -13,10 +13,19 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import include, url
+from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.views.generic.base import RedirectView
+admin.autodiscover()
 
 urlpatterns = [
     url(r'^data/', include('data.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    
+    url(r'^$',RedirectView.as_view(url='/timetable/search-in/')),
+    url(r'^timetable/',include('timetable.urls',namespace='timetable')),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/1/',include('ot_api.urls',namespace='ot_api')),
+    url(r'^static/jsi18n/he/django.js$', 'common.views.home'),
+    #url(r'^privacy','common.views.privacy')
 ]

@@ -32,6 +32,9 @@ def get_all_trips_in_date(date):
 def get_trips_by_day(day):
     return get_all_trips_in_date(day)
 
+def get_trips_by_day_for_app(day):
+    trips = get_all_trips_in_date(day)
+
 def get_expected_location(trip,dt):
     assert isinstance(trip,TtTrip)
     stop_times = list(trip.get_stop_times())

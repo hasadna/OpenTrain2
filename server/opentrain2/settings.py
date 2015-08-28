@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'data',
     'gtfs',
-    'timetable'
+    'timetable',
+    'ot_api'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'opentrain2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,6 +72,13 @@ TEMPLATES = [
         },
     },
 ]
+
+#TEMPLATE_DIRS = (os.path.join(BASE_DIR,'templates'),)
+
+#from django.conf import global_settings
+#TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    #"common.ctx.menu",
+#)
 
 WSGI_APPLICATION = 'opentrain2.wsgi.application'
 
@@ -104,3 +112,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
