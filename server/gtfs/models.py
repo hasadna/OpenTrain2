@@ -35,7 +35,8 @@ class GTFSModel(models.Model):
                         is_field = True
                         field_name = key_decoded[:-3]
                     if not is_field:
-                        raise Exception('key %s is not a field of %s' % (key,cls.__name__))
+                        #print 'key %s is not a field of %s' % (key,cls.__name__)
+                        continue
                     field = fields_dict[field_name]
                     # check if method set_<key> was defined
                     setter = getattr(m,'set_%s' % (field_name),None)
@@ -58,7 +59,7 @@ class GTFSModel(models.Model):
                     
 class Agency(GTFSModel):
     filename = "agency.txt"
-    agency_id = models.IntegerField(primary_key=True,default=1,max_length=255)
+    agency_id = models.IntegerField(primary_key=True,default=1)
     agency_name = models.TextField()
     agency_url = models.TextField()
     agency_timezone = models.TextField()
@@ -111,7 +112,7 @@ class Trip(GTFSModel):
     trip_id = models.CharField(max_length=100,primary_key=True)
     direction_id = models.IntegerField()
     shape_id = models.CharField(max_length=100)
-    wheelchair_accessible = models.IntegerField()
+    #wheelchair_accessible = models.IntegerField()
     trip_headsign = models.CharField(max_length=100)
     #total_start_time = models.IntegerField()
     #total_end_time = models.IntegerField()

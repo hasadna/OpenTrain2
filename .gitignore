@@ -61,3 +61,7 @@ target/
 
 # Editor
 .idea/
+
+tmp_data
+server/db.sqlite3-journal
+
