@@ -16,10 +16,10 @@ class TtStop(models.Model):
     def __unicode__(self):
         return '%s %s' % (self.stop_name,self.gtfs_stop_id)
     
-    def to_json(self,bssids=None, short=False):
+    def to_json(self,bssids=None, full=True):
         result =   dict(stop_name=self.stop_name,
                         gtfs_stop_id=self.gtfs_stop_id)
-        if not short:
+        if full:
             result['latlon'] = [self.stop_lat,self.stop_lon]
             result['stop_short_name'] = self.get_short_name()
         if bssids is not None:
