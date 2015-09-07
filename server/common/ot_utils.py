@@ -3,9 +3,11 @@ import dateutil.parser
 import zipfile
 import os
 import time
+import pytz
+import unicodecsv
+
 from django.conf import settings
 from django.utils import timezone
-import pytz
 
 def isoformat_to_localtime(isoformat):
     return get_localtime(dateutil.parser.parse(isoformat))
@@ -291,3 +293,11 @@ def json_hook_dt(obj):
         
     return obj
         
+def read_csv(path):
+    with open(path) as fh:
+        result = []
+        reader = unicodecsv.DictReader(fh)
+        for row in reader:
+            result.append(row)
+    return result
+

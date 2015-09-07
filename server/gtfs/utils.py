@@ -1,8 +1,12 @@
 import os
 import glob
+import logging
 
 from django.conf import settings
 from common import ot_utils
+
+
+LOGGER = logging.getLogger(__name__)
 
 MOT_FTP = "gtfs.mot.gov.il"
 FILE_NAME = "israel-public-transportation.zip"
@@ -66,22 +70,49 @@ def find_gtfs_data_dir():
 
 
 def clean_all():
-    import models
-    cls_list = models.GTFSModel.__subclasses__()  # @UndefinedVariable
-    for cls in reversed(cls_list):
-        ot_utils.delete_from_model(cls)
-    
-def create_all(dirname,clean=True):
-    import models
-    ot_utils.rmf(os.path.join(settings.BASE_DIR,'tmp_data/gtfs/processed_data'))
-    cls_list = models.GTFSModel.__subclasses__()  # @UndefinedVariable
-    if clean:
-        #pass
-        clean_all()
-        
-    for cls in cls_list: 
-        cls.read_from_csv(dirname)
+    from django.apps import apps
+    models = apps.get_app_config('gtfs').models.values()
+    for model in models:
+        LOGGER.info('deleting %s',model.__name__)
+        model.objects.all().delete()
 
-    
+def create_all(dirname,clean=True):
+    ot_utils.rmf(os.path.join(settings.BASE_DIR,'tmp_data/gtfs/processed_data'))
+    if clean:
+        clean_all()
+    import_gtfs(dirname)
+
+def import_gtfs(dirname):
+    i = Importer(dirname)
+    i.import_all()
+
+class Importer(object):
+    def __init__(self, dirname):
+        self.dirname = dirname
+
+    def read_csv(self, filename):
+        return ot_utils.read_csv(os.path.join(self.dirname, filename))
+
+    def import_all(self):
+        self.import_agency()
+        self.import_routes()
+
+    def import_agency(self):
+        from . import models
+        agencies = self.read_csv('agency.txt')
+        israrails = [a for a in agencies if 'rail' in a['agency_url']]
+        assert len(israrails) == 1
+        a = models.Agency.from_row(israrails[0])
+        self.agency_id = a.agency_id
+
+    def import_routes(self):
+        from . import models
+        routes = self.read_csv('routes.txt')
+        routes = [r for r in routes if r['agency_id'] == self.agency_id]
+        models.Route.from_rows(routes)
+
+
+
+
 
     

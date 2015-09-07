@@ -7,68 +7,34 @@ import common.ot_utils
 class GTFSModel(models.Model):
     class Meta:
         abstract = True
-    
+
     @classmethod
-    def read_from_csv(cls,dirname):
-        full = os.path.join(dirname,cls.filename)
-        print('Reading from %s from class %s' % (full,cls.__name__))
-        with open(full) as fh:
-            reader = csv.DictReader(fh, delimiter=',')
-            index = 0
-            objs_to_save = []
-            fields_dict = dict()
-            for f in cls._meta.fields:
-                fields_dict[f.name] = f
-                
-            for row in reader:
-                index+=1
-                m = cls()
-                
-                for (key,value) in row.iteritems():
-                    key_decoded = key.decode('utf-8-sig')
-                    value_decoded = value.decode('utf-8-sig')
-                    is_field = False
-                    if key_decoded in fields_dict:
-                        is_field = True
-                        field_name = key_decoded
-                    if not is_field and key_decoded.endswith('_id') and key_decoded[:-3] in fields_dict:
-                        is_field = True
-                        field_name = key_decoded[:-3]
-                    if not is_field:
-                        #print 'key %s is not a field of %s' % (key,cls.__name__)
-                        continue
-                    field = fields_dict[field_name]
-                    # check if method set_<key> was defined
-                    setter = getattr(m,'set_%s' % (field_name),None)
-                    if setter:
-                        setter(value_decoded)
-                    else:
-                        if isinstance(field,models.BooleanField):
-                            setattr(m,field_name,common.ot_utils.parse_bool(value))
-                        else:
-                            setattr(m,key_decoded,value_decoded)
-                objs_to_save.append(m)
-                if index % 50000 == 0:
-                    cls.objects.bulk_create(objs_to_save)
-                    print('%s: Saved %d rows so far' % (cls.__name__,index))
-                    objs_to_save = []
-            cls.objects.bulk_create(objs_to_save)
-            print('%s: Saved %d rows so far' % (cls.__name__,index))
-            objs_to_save = []
-        
-                    
+    def from_rows(cls, rows):
+        objects = [cls.deser(row) for row in rows]
+        cls.objects.bulk_create(objects)
+
+    @classmethod
+    def from_row(cls, row):
+        result = cls.deser(row)
+        result.save()
+        return result
+
+
 class Agency(GTFSModel):
-    filename = "agency.txt"
     agency_id = models.IntegerField(primary_key=True,default=1)
     agency_name = models.TextField()
     agency_url = models.TextField()
-    agency_timezone = models.TextField()
-    agency_lang = models.CharField(max_length=20)
+
     def __unicode__(self):
         return self.agency_name
-      
+
+    @classmethod
+    def deser(cls, row):
+        return Agency(agency_id=row['agency_id'],
+                     agency_name=row['agency_name'],
+                     agency_url=row['agency_url'])
+
 class Route(GTFSModel):
-    filename = "routes.txt"
     route_id = models.IntegerField(primary_key=True)
     agency = models.ForeignKey('Agency',null=True,blank=True)
     route_short_name = models.CharField(max_length=255)
@@ -79,6 +45,10 @@ class Route(GTFSModel):
     route_text_color = models.CharField(max_length=20)
     def __unicode__(self):
         return '%s : %s' % (self.route_id,self.route_long_name)
+
+    def deser(self, row):
+        return Route(agency_id=row['agency_id'],
+                     )
 
 
 class Service(GTFSModel):
