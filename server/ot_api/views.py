@@ -76,7 +76,8 @@ class TripIdsForDate(ApiView):
     """ Return list of trips for given date given 
         paramters: one of:
                  date : in format dd/mm/yyyy 
-                 today : 0/1         
+                 today : 0/1
+
         """
     api_url = r'^trips/trips-for-date/$'
     def get(self,request):
@@ -95,6 +96,32 @@ class TripIdsForDate(ApiView):
         result = dict(objects=objects,
                       meta=dict(total_count=len(objects)))
         return self.get_json_resp(result)
+
+class TripsForDate(ApiView):
+    """ Return list of trips for given date given
+        paramters: one of:
+                 date : in format dd/mm/yyyy
+                 today : 0/1
+
+        """
+    api_url = r'^trips/tt-for-date/$'
+    def get(self,request):
+        import timetable.services
+        date = request.GET.get('date')
+        today = self.get_bool('today',False)
+        if not today and not date:
+            raise Exception('Must have either today or date')
+        if today:
+            dt = common.ot_utils.get_localtime_now().date()
+        else:
+            day,month,year = date.split('/')
+            dt = datetime.date(year=int(year),month=int(month),day=int(day))
+        trips = timetable.services.get_all_trips_in_date(dt)
+        objects=[trip.to_json_full(with_shapes=False) for trip in trips]
+        result = dict(objects=objects,
+                      meta=dict(total_count=len(objects)))
+        return self.get_json_resp(result)
+
 
 class TripDetails(ApiView):
     """ Return details for trip with id trip_id (given in url)
