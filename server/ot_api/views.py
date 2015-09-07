@@ -34,7 +34,7 @@ class ApiView(View):
 
 
     def get_bool(self,key,defval=None):
-        val = self.GET.get(key,None)
+        val = self.request.GET.get(key,None)
         if val is None:
             return defval
         val = val.lower()
