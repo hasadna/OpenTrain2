@@ -88,10 +88,10 @@ class TtStopTime(models.Model):
         return '%s at %s' % (self.stop.stop_name,self.exp_arrival)
     
     def to_json(self,rt_stop=None,stop_id_only=False):
-        result = dict(exp_arrival=self.exp_arrival.isoformat(),
-                    exp_departure=self.exp_departure.isoformat(),
-                    stop_sequence=self.stop_sequence,
-                    stop=self.stop.to_json(full=not stop_id_only)
+        result = dict(a=self.exp_arrival.isoformat(),
+                    d=self.exp_departure.isoformat(),
+                    i=self.stop_sequence,
+                    s=self.stop.to_json(full=not stop_id_only)
                     )
         if rt_stop:
             if rt_stop.act_arrival:
