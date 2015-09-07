@@ -90,29 +90,31 @@ class Importer(object):
     def __init__(self, dirname):
         self.dirname = dirname
 
-    def read_csv(self, filename):
-        return ot_utils.read_csv(os.path.join(self.dirname, filename))
+    def read_csv(self, filename, cond=None):
+        return ot_utils.read_csv(os.path.join(self.dirname, filename), cond=cond)
 
     def import_all(self):
         self.import_agency()
         self.import_routes()
+        self.import_trips()
 
     def import_agency(self):
         from . import models
-        agencies = self.read_csv('agency.txt')
-        israrails = [a for a in agencies if 'rail' in a['agency_url']]
-        assert len(israrails) == 1
-        a = models.Agency.from_row(israrails[0])
+        agencies = self.read_csv('agency.txt', cond=lambda a: 'rail' in a['agency_url'])
+        assert len(agencies) == 1
+        a = models.Agency.from_row(agencies[0])
         self.agency_id = a.agency_id
 
     def import_routes(self):
         from . import models
-        routes = self.read_csv('routes.txt')
-        routes = [r for r in routes if r['agency_id'] == self.agency_id]
+        routes = self.read_csv('routes.txt', cond=lambda x: x['agency_id'] == self.agency_id)
         models.Route.from_rows(routes)
 
-
-
+    def import_trips(self):
+        from . import models
+        route_ids = set(models.Route.objects.values_list('route_id',flat=True))
+        trips = self.read_csv('trips.txt', cond=lambda x: int(x['route_id']) in route_ids)
+        models.Trip.from_rows(trips)
 
 
     

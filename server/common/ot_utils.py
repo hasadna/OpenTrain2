@@ -293,11 +293,12 @@ def json_hook_dt(obj):
         
     return obj
         
-def read_csv(path):
+def read_csv(path, cond):
     with open(path) as fh:
         result = []
         reader = unicodecsv.DictReader(fh)
         for row in reader:
-            result.append(row)
+            if not cond or cond(row):
+                result.append(row)
     return result
 

@@ -42,7 +42,7 @@ class Route(GTFSModel):
     route_desc = models.TextField()
     route_type = models.IntegerField()
     route_color = models.CharField(max_length=10)
-    
+
     def __unicode__(self):
         return '%s : %s' % (self.route_id,self.route_long_name)
 
@@ -55,7 +55,6 @@ class Route(GTFSModel):
                      route_desc=row['route_desc'],
                      route_type=row['route_type'],
                      route_color=row['route_color'],
-                     route_text_color=row['route_text_color']
                      )
 
 
