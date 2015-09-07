@@ -85,13 +85,19 @@ class Service(GTFSModel):
 class Trip(GTFSModel):
     filename = "trips.txt"
     route = models.ForeignKey('Route')
-    service = models.ForeignKey('Service')
+    service = models.ForeignKey('Service',null=True)
     trip_id = models.CharField(max_length=100,primary_key=True)
     direction_id = models.IntegerField()
     shape_id = models.CharField(max_length=100)
 
     def __unicode__(self):
         return self.trip_id
+
+    @classmethod
+    def deser(cls, row):
+        return Trip(route_id=row['route_id'],
+                    direction_id=row['direction_id'],
+                    shape_id=row['shape_id'])
             
 class Stop(GTFSModel):
     filename = "stops.txt"
