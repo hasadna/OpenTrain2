@@ -89,11 +89,7 @@ class Trip(GTFSModel):
     trip_id = models.CharField(max_length=100,primary_key=True)
     direction_id = models.IntegerField()
     shape_id = models.CharField(max_length=100)
-    #wheelchair_accessible = models.IntegerField()
-    trip_headsign = models.CharField(max_length=100)
-    #total_start_time = models.IntegerField()
-    #total_end_time = models.IntegerField()
-        
+
     def __unicode__(self):
         return self.trip_id
             
