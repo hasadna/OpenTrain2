@@ -41,7 +41,8 @@ INSTALLED_APPS = (
     'data',
     'gtfs',
     'timetable',
-    'ot_api'
+    'ot_api',
+    'common'
 )
 
 MIDDLEWARE_CLASSES = (
