@@ -42,12 +42,20 @@ class Route(GTFSModel):
     route_desc = models.TextField()
     route_type = models.IntegerField()
     route_color = models.CharField(max_length=10)
-    route_text_color = models.CharField(max_length=20)
+    
     def __unicode__(self):
         return '%s : %s' % (self.route_id,self.route_long_name)
 
-    def deser(self, row):
+    @classmethod
+    def deser(cls, row):
         return Route(agency_id=row['agency_id'],
+                     route_id=row['route_id'],
+                     route_short_name=row['route_short_name'],
+                     route_long_name=row['route_long_name'],
+                     route_desc=row['route_desc'],
+                     route_type=row['route_type'],
+                     route_color=row['route_color'],
+                     route_text_color=row['route_text_color']
                      )
 
 
