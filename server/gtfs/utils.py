@@ -101,6 +101,7 @@ class Importer(object):
         self.import_agency()
         self.import_routes()
         self.import_trips()
+        self.import_services()
 
     def import_agency(self):
         from . import models
@@ -118,7 +119,13 @@ class Importer(object):
         from . import models
         route_ids = set(models.Route.objects.values_list('route_id',flat=True))
         trips = self.read_csv('trips.txt', cond=lambda x: int(x['route_id']) in route_ids)
+        self.services_ids = {trip['service_id'] for trip in trips}
         models.Trip.from_rows(trips)
 
+    def import_services(self):
+        from . import models
+        trip_ids = {models.Trip.objects.values_list('trip_id', flat=True)}
+        services = self.read_csv('calendar.txt', cond=lambda x:  x['service_id'] in self.services_ids)
+        models.Service.from_rows(services)
 
     
