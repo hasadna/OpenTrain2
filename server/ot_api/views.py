@@ -117,7 +117,7 @@ class TripsForDate(ApiView):
             day,month,year = date.split('/')
             dt = datetime.date(year=int(year),month=int(month),day=int(day))
         trips = timetable.services.get_all_trips_in_date(dt)
-        objects=[trip.to_json_full(with_shapes=False) for trip in trips]
+        objects=[trip.to_json_full(with_shapes=False, stop_id_only=True) for trip in trips]
         result = dict(objects=objects,
                       meta=dict(total_count=len(objects)))
         return self.get_json_resp(result)

@@ -16,11 +16,12 @@ class TtStop(models.Model):
     def __unicode__(self):
         return '%s %s' % (self.stop_name,self.gtfs_stop_id)
     
-    def to_json(self,bssids=None):
+    def to_json(self,bssids=None, short=False):
         result =   dict(stop_name=self.stop_name,
-                    latlon=[self.stop_lat,self.stop_lon],
-                    gtfs_stop_id=self.gtfs_stop_id,
-                    stop_short_name=self.get_short_name())
+                        gtfs_stop_id=self.gtfs_stop_id)
+        if not short:
+            result['latlon'] = [self.stop_lat,self.stop_lon]
+            result['stop_short_name'] = self.get_short_name()
         if bssids is not None:
             result['bssids'] = bssids
         return result
@@ -55,7 +56,7 @@ class TtTrip(models.Model):
             #delta_str =  delta.strftime('%M:%S') if departure is not None else '--:--'
             print '%s %s %s' % (arrival_str, departure_str, stop.stop.stop_name)
 
-    def to_json_full(self,with_shapes=True,rt_stops=None):
+    def to_json_full(self,with_shapes=True,rt_stops=None, stop_id_only=False):
         stop_times = self.get_stop_times()
         stop_times_json = []
         for st in stop_times:
@@ -63,7 +64,7 @@ class TtTrip(models.Model):
                 found = [s for s in rt_stops if s.stop_id == st.stop_id]
             else:
                 found = None
-            stop_times_json.append(st.to_json(rt_stop=found[0] if found else None))
+            stop_times_json.append(st.to_json(rt_stop=found[0] if found else None, stop_id_only=stop_id_only))
         result = dict(gtfs_trip_id=self.gtfs_trip_id,
                       stop_times=stop_times_json)
         if with_shapes:
@@ -86,11 +87,11 @@ class TtStopTime(models.Model):
     def __unicode__(self):
         return '%s at %s' % (self.stop.stop_name,self.exp_arrival)
     
-    def to_json(self,rt_stop=None):
+    def to_json(self,rt_stop=None,stop_id_only=False):
         result = dict(exp_arrival=self.exp_arrival.isoformat(),
                     exp_departure=self.exp_departure.isoformat(),
                     stop_sequence=self.stop_sequence,
-                    stop=self.stop.to_json()
+                    stop=self.stop.to_json(full=not stop_id_only)
                     )
         if rt_stop:
             if rt_stop.act_arrival:
