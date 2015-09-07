@@ -91,7 +91,8 @@ class TtStopTime(models.Model):
         result = dict(a=self.exp_arrival.isoformat(),
                     d=self.exp_departure.isoformat(),
                     i=self.stop_sequence,
-                    s=self.stop.to_json(full=not stop_id_only)
+                    #s=self.stop.to_json(full=not stop_id_only)
+                      s=self.stop.gtfs_stop_id,
                     )
         if rt_stop:
             if rt_stop.act_arrival:
