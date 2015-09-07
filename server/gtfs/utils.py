@@ -85,6 +85,10 @@ def create_all(dirname,clean=True):
 def import_gtfs(dirname):
     i = Importer(dirname)
     i.import_all()
+    from django.apps import apps
+    models = apps.get_app_config('gtfs').models.values()
+    for model in models:
+        LOGGER.info('model %s: %s',model.__name__,model.objects.count())
 
 class Importer(object):
     def __init__(self, dirname):

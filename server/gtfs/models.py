@@ -95,7 +95,8 @@ class Trip(GTFSModel):
 
     @classmethod
     def deser(cls, row):
-        return Trip(route_id=row['route_id'],
+        return Trip(trip_id=row['trip_id'],
+                    route_id=row['route_id'],
                     direction_id=row['direction_id'],
                     shape_id=row['shape_id'])
             
@@ -146,6 +147,5 @@ class Shape(GTFSModel):
 class ShapeJson(models.Model):
     shape_id = models.CharField(max_length=100,db_index=True)
     points = models.TextField()
-    
     
     
