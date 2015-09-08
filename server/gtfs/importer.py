@@ -97,9 +97,6 @@ class Importer(object):
         assert models.StopTime.objects.filter(stop__isnull=True).count() == 0
 
     def import_shapes(self):
-        import pdb
-        pdb.set_trace()
-        from . import models
         LOGGER.info('importing shapes')
         shape_ids = set(models.Trip.objects.values_list('str_shape_id', flat=True))
         assert len(shape_ids) > 10

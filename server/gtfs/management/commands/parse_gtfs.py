@@ -5,7 +5,7 @@ from cProfile import Profile
 
 class Command(BaseCommand):
     def _handle(self, *args, **options):
-        gtfs.utils.create_all('tmp_data/gtfs/data/2015_09_07_17_00_12/')
+        gtfs.utils.create_all('tmp_data/gtfs/data/latest/')
 
     def add_arguments(self, parser):
         parser.add_argument('--profile', action='store_true')

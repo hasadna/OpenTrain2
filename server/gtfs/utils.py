@@ -76,6 +76,7 @@ def clean_all():
 
 
 def create_all(dirname):
+    clean_all()
     import importer
     i = importer.Importer(dirname)
     i.import_all()
