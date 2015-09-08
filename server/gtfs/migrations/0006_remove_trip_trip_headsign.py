@@ -5,7 +5,6 @@ from django.db import models, migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('gtfs', '0005_remove_route_route_text_color'),
     ]

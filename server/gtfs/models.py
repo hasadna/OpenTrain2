@@ -4,6 +4,7 @@ import common.ot_utils
 
 print __name__
 
+
 class GTFSModel(models.Model):
     class Meta:
         abstract = True
@@ -116,7 +117,7 @@ class Stop(GTFSModel):
     location_type = models.IntegerField()
 
     @classmethod
-    def deser(cls,row):
+    def deser(cls, row):
         result = Stop()
         result.stop_id = row['stop_id']
         result.stop_code = row['stop_code']
@@ -125,7 +126,6 @@ class Stop(GTFSModel):
         result.stop_lon = row['stop_lon']
         result.location_type = row['location_type']
         return result
-
 
     def __unicode__(self):
         return self.stop_name
@@ -136,12 +136,12 @@ class StopTime(GTFSModel):
     trip = models.ForeignKey('Trip')
     arrival_time = models.IntegerField()
     departure_time = models.IntegerField()
-    stop = models.ForeignKey('Stop',null=True)
+    stop = models.ForeignKey('Stop', null=True)
     stop_sequence = models.IntegerField()
-    str_stop_id = models.CharField(max_length=20,default='')
+    str_stop_id = models.CharField(max_length=20, default='')
 
     @classmethod
-    def deser(cls,row):
+    def deser(cls, row):
         result = StopTime()
         result.trip_id = row['trip_id']
         result.arrival_time = common.ot_utils.normalize_time(row['arrival_time'])
@@ -168,10 +168,9 @@ class StopTime(GTFSModel):
 
 class Shape(GTFSModel):
     shape_id = models.CharField(max_length=100, primary_key=True)
-    points = models.TextField(null=True) # json
+    points = models.TextField(null=True)  # json
 
     @classmethod
     def deser(cls, row):
         return Shape(shape_id=row['shape_id'],
                      points=json.dumps(row['points']))
-

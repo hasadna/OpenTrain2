@@ -1,0 +1,37 @@
+{% load staticfiles %}
+{% load ot_filters %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% trans 'Trip Map for' %} {{trip.trip_id}}</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'common/style/ot_map.css' %}">
+    <link rel="stylesheet" href="{% static 'common/leaflet/leaflet.css' %}"/>
+</head>
+<body onload="initMap()">
+<h2>{% trans 'Trip Map for' %} {{trip.gtfs_trip_id}}</h2>
+
+<h2>{% trans 'From' %}
+    {% trans trip.from_stoptime.stop.stop_name %}
+    {% trans 'To' %}
+    {% trans trip.to_stoptime.stop.stop_name %}</h2>
+
+<div id="tripMap" style="width: 600px; height: 400px"></div>
+<script src="{% static 'jsi18n/he/django.js' %}"></script>
+<script src="{% static 'common/leaflet/leaflet-src.js' %}"></script>
+<script src="{% static 'common/js/ot_map_utils.js' %}"></script>
+<script>
+    {%
+        include
+        'timetable/trip_map.js' %
+    }
+</script>
+</body>
+</html>
+
+
+		
+		
+	

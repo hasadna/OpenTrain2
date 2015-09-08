@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Network
 import json
 
+
 # Create your views here.
 
 def index(request):

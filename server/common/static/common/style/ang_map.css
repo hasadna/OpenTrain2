@@ -1,9 +1,11 @@
 #main-body {
-	padding-left: 20px;
-	padding-top: 10px;
-};
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+;
 
 .no_live_span {
-	width : 32px;
-	height: 15px;
+    width: 32px;
+    height: 15px;
 }

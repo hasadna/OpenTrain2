@@ -5,7 +5,6 @@ from django.db import models, migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('gtfs', '0012_remove_stop_stop_url'),
     ]

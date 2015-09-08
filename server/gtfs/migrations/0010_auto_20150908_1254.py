@@ -5,7 +5,6 @@ from django.db import models, migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('gtfs', '0009_stoptime_str_stop_id'),
     ]

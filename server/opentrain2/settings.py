@@ -15,7 +15,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DATA_DIR = os.path.join(BASE_DIR,'tmp_data')
+DATA_DIR = os.path.join(BASE_DIR, 'tmp_data')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -41,7 +41,6 @@ INSTALLED_APPS = (
     'django_extensions',
     'data',
     'gtfs',
-    'ot_api',
     'common'
 )
 
@@ -61,7 +60,7 @@ ROOT_URLCONF = 'opentrain2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,12 +73,12 @@ TEMPLATES = [
     },
 ]
 
-#TEMPLATE_DIRS = (os.path.join(BASE_DIR,'templates'),)
+# TEMPLATE_DIRS = (os.path.join(BASE_DIR,'templates'),)
 
-#from django.conf import global_settings
-#TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-    #"common.ctx.menu",
-#)
+# from django.conf import global_settings
+# TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+# "common.ctx.menu",
+# )
 
 WSGI_APPLICATION = 'opentrain2.wsgi.application'
 
@@ -113,7 +112,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-
 
 LOGGING = {
     'version': 1,
