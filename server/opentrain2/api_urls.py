@@ -4,6 +4,7 @@ import gtfs.api
 
 router = routers.SimpleRouter()
 router.register('gtfs/stops',gtfs.api.StopsViewSet)
+router.register('gtfs/trips',gtfs.api.TripsViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

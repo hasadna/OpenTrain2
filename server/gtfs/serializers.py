@@ -7,6 +7,7 @@ class StopSerializer(serializers.ModelSerializer):
     code = fields.IntegerField(source='stop_code')
     name = fields.CharField(source='stop_name')
     latlon = fields.ListField(source='get_latlon')
+
     class Meta:
         model = models.Stop
         fields = (
@@ -14,4 +15,14 @@ class StopSerializer(serializers.ModelSerializer):
             'code',
             'name',
             'latlon',
+        )
+
+
+class TripSerializer(serializers.ModelSerializer):
+    id = fields.CharField(source='trip_id')
+
+    class Meta:
+        model = models.Trip
+        fields = (
+            'id',
         )
