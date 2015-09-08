@@ -24,7 +24,7 @@ DATA_DIR = os.path.join(BASE_DIR, 'tmp_data')
 SECRET_KEY = 'kk#6w+a)55ali3mzc@1&2b-jrb!h1j6k@5bfez#qgc*&24h5-f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -41,7 +41,8 @@ INSTALLED_APPS = (
     'django_extensions',
     'data',
     'gtfs',
-    'common'
+    'common',
+    'rest_framework'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -93,6 +94,8 @@ DATABASES = {
     }
 }
 
+
+ALLOWED_HOSTS = ['*']
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

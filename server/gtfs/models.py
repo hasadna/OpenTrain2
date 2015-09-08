@@ -2,8 +2,6 @@ from django.db import models
 import json
 import common.ot_utils
 
-print __name__
-
 
 class GTFSModel(models.Model):
     class Meta:
@@ -115,6 +113,9 @@ class Stop(GTFSModel):
     stop_lat = models.FloatField()
     stop_lon = models.FloatField()
     location_type = models.IntegerField()
+
+    def get_latlon(self):
+        return [self.stop_lat, self.stop_lon]
 
     @classmethod
     def deser(cls, row):

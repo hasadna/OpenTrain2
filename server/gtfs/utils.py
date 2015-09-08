@@ -46,7 +46,7 @@ def download_gtfs_file(force=False):
         os.remove(os.path.join(GTFS_DATA_DIR,'latest'))
     except (IOError, OSError):
         pass
-    os.symlink(local_dir, os.path.join('GTFS_DATA_DIR','latest'))
+    os.symlink(local_dir, os.path.join(GTFS_DATA_DIR,'latest'))
     local_file = os.path.join(local_dir, FILE_NAME)
     shutil.move(tmp_file, local_file)
     ot_utils.unzip_file(local_file, local_dir)
