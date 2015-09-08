@@ -1,5 +1,4 @@
 import os
-import glob
 import logging
 
 from django.conf import settings
@@ -43,7 +42,11 @@ def download_gtfs_file(force=False):
     LOGGER.info('Checksum is different or force -- copying')
     local_dir = os.path.join(GTFS_DATA_DIR, time_suffix)
     ot_utils.mkdir_p(local_dir)
-    ot_utils.mkdir_p(local_dir)
+    try:
+        os.remove(os.path.join(GTFS_DATA_DIR,'latest'))
+    except (IOError, OSError):
+        pass
+    os.symlink(local_dir, os.path.join('GTFS_DATA_DIR','latest'))
     local_file = os.path.join(local_dir, FILE_NAME)
     shutil.move(tmp_file, local_file)
     ot_utils.unzip_file(local_file, local_dir)
@@ -56,15 +59,6 @@ def write_success():
     last_dir = ot_utils.find_lastest_in_dir(GTFS_DATA_DIR)
     with open(os.path.join(last_dir, 'success'), 'w') as fh:
         fh.write('success on %s\n' % common.ot_utils.get_utc_now().isoformat())
-
-
-def find_gtfs_data_dir():
-    """ returns the lastest subfolder in DATA_DIR """
-    dirnames = glob.glob("%s/*" % (GTFS_DATA_DIR))
-    if not dirnames:
-        raise Exception("No data dir found in %s" % (GTFS_DATA_DIR))
-    # return the latest
-    return sorted(dirnames)[-1]
 
 
 def clean_all():
