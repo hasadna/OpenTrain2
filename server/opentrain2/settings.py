@@ -24,7 +24,7 @@ DATA_DIR = os.path.join(BASE_DIR,'tmp_data')
 SECRET_KEY = 'kk#6w+a)55ali3mzc@1&2b-jrb!h1j6k@5bfez#qgc*&24h5-f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -144,6 +144,11 @@ LOGGING = {
         '': {
             'handlers': ['console'],
             'level': 'INFO',
+        },
+        'gtfs': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False
         },
     }
 }

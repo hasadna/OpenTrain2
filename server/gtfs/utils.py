@@ -83,49 +83,7 @@ def create_all(dirname,clean=True):
     import_gtfs(dirname)
 
 def import_gtfs(dirname):
-    i = Importer(dirname)
+    import importer
+    i = importer.Importer(dirname)
     i.import_all()
-    from django.apps import apps
-    models = apps.get_app_config('gtfs').models.values()
-    for model in models:
-        LOGGER.info('model %s: %s',model.__name__,model.objects.count())
 
-class Importer(object):
-    def __init__(self, dirname):
-        self.dirname = dirname
-
-    def read_csv(self, filename, cond=None):
-        return ot_utils.read_csv(os.path.join(self.dirname, filename), cond=cond)
-
-    def import_all(self):
-        self.import_agency()
-        self.import_routes()
-        self.import_trips()
-        self.import_services()
-
-    def import_agency(self):
-        from . import models
-        agencies = self.read_csv('agency.txt', cond=lambda a: 'rail' in a['agency_url'])
-        assert len(agencies) == 1
-        a = models.Agency.from_row(agencies[0])
-        self.agency_id = a.agency_id
-
-    def import_routes(self):
-        from . import models
-        routes = self.read_csv('routes.txt', cond=lambda x: x['agency_id'] == self.agency_id)
-        models.Route.from_rows(routes)
-
-    def import_trips(self):
-        from . import models
-        route_ids = set(models.Route.objects.values_list('route_id',flat=True))
-        trips = self.read_csv('trips.txt', cond=lambda x: int(x['route_id']) in route_ids)
-        self.services_ids = {trip['service_id'] for trip in trips}
-        models.Trip.from_rows(trips)
-
-    def import_services(self):
-        from . import models
-        trip_ids = {models.Trip.objects.values_list('trip_id', flat=True)}
-        services = self.read_csv('calendar.txt', cond=lambda x:  x['service_id'] in self.services_ids)
-        models.Service.from_rows(services)
-
-    
