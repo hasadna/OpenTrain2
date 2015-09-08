@@ -41,7 +41,6 @@ INSTALLED_APPS = (
     'django_extensions',
     'data',
     'gtfs',
-    'timetable',
     'ot_api',
     'common'
 )
