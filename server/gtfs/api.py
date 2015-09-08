@@ -7,6 +7,7 @@ from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 
 from . import models
 from . import serializers
+import common.ot_utils
 
 class StopsViewSet(ReadOnlyModelViewSet):
     queryset = models.Stop.objects.all()
@@ -19,7 +20,7 @@ class TripsViewSet(GenericViewSet):
 
     @list_route(url_path='date/today')
     def today(self, request):
-        return self.trips_for_date(timezone.now().date())
+        return self.trips_for_date(common.ot_utils.get_today())
 
     @list_route(url_path='date/(?P<year>\d+)-(?P<month>\d+)-(?P<day>\d+)')
     def date(self, request,year,month,day):

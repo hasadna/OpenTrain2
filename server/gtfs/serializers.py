@@ -19,11 +19,16 @@ class StopSerializer(serializers.ModelSerializer):
 
 
 class StopTimeSerializer(serializers.ModelSerializer):
+    a = fields.CharField(source='arrival_time')
+    d = fields.CharField(source='departure_time')
+    s = fields.IntegerField(source='stop.stop_id')
+
     class Meta:
         model = models.StopTime
         fields = (
-            'arrival_time',
-            'departure_time'
+            'a',
+            'd',
+            's',
         )
 
 

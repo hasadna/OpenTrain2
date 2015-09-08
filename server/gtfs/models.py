@@ -1,6 +1,7 @@
 from django.db import models
 import json
 import common.ot_utils
+import datetime
 
 
 class GTFSModel(models.Model):
@@ -135,8 +136,8 @@ class Stop(GTFSModel):
 class StopTime(GTFSModel):
     filename = "stop_times.txt"
     trip = models.ForeignKey('Trip',related_name='stop_times')
-    arrival_time = models.IntegerField()
-    departure_time = models.IntegerField()
+    arrival_time = models.CharField(max_length=20)
+    departure_time = models.CharField(max_length=20)
     stop = models.ForeignKey('Stop', null=True)
     stop_sequence = models.IntegerField()
     str_stop_id = models.CharField(max_length=20, default='')
@@ -145,23 +146,11 @@ class StopTime(GTFSModel):
     def deser(cls, row):
         result = StopTime()
         result.trip_id = row['trip_id']
-        result.arrival_time = common.ot_utils.normalize_time(row['arrival_time'])
-        result.departure_time = common.ot_utils.normalize_time(row['departure_time'])
+        result.arrival_time = row['arrival_time']
+        result.departure_time = row['departure_time']
         result.stop_sequence = int(row['stop_sequence'])
         result.str_stop_id = row['stop_id']
         return result
-
-    def set_arrival_time(self, value):
-        self.arrival_time = common.ot_utils.normalize_time(value)
-
-    def json_arrival_time(self):
-        return common.ot_utils.denormalize_time_to_string(self.arrival_time)
-
-    def set_departure_time(self, value):
-        self.departure_time = common.ot_utils.normalize_time(value)
-
-    def json_departure_time(self):
-        return common.ot_utils.denormalize_time_to_string(self.departure_time)
 
     def __unicode__(self):
         return '%s %s' % (self.arrival_time, self.stop.stop_name)

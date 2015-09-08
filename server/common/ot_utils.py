@@ -68,13 +68,6 @@ def parse_bool(value):
     return True if int_value else False
 
 
-def normalize_time(value):
-    """ we normalize time (without date) into integer based on minutes
-    we ignore the seconds """
-    h, m, s = [int(x) for x in value.split(':')]  # @UnusedVariable
-    return h * 60 * 60 + m * 60 + s
-
-
 def get_utc_now():
     return datetime.datetime.utcnow().replace(tzinfo=timezone.utc)
 
