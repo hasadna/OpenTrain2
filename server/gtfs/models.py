@@ -134,7 +134,7 @@ class Stop(GTFSModel):
 
 class StopTime(GTFSModel):
     filename = "stop_times.txt"
-    trip = models.ForeignKey('Trip')
+    trip = models.ForeignKey('Trip',related_name='stop_times')
     arrival_time = models.IntegerField()
     departure_time = models.IntegerField()
     stop = models.ForeignKey('Stop', null=True)

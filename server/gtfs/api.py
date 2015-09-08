@@ -1,8 +1,9 @@
 from django.utils import timezone
+import datetime
 
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
-from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 
 from . import models
 from . import serializers
@@ -12,15 +13,28 @@ class StopsViewSet(ReadOnlyModelViewSet):
     serializer_class = serializers.StopSerializer
 
 
-class TripsViewSet(ReadOnlyModelViewSet):
-    queryset = models.Trip.objects.all()
+class TripsViewSet(GenericViewSet):
     serializer_class = serializers.TripSerializer
-    paginate_by = 100
+    queryset = models.Trip.objects.all()
 
-    @list_route()
+    @list_route(url_path='date/today')
     def today(self, request):
-        today = timezone.now().date()
-        today_trips = models.Trip.objects.filter(service__start_date__lte=today,
-                                                 service__end_data__gte=today)
+        return self.trips_for_date(timezone.now().date())
+
+    @list_route(url_path='date/(?P<year>\d+)-(?P<month>\d+)-(?P<day>\d+)')
+    def date(self, request,year,month,day):
+        d = datetime.date(year=int(year),
+                          month=int(month),
+                          day=int(day))
+        return self.trips_for_date(d)
+
+    def trips_for_date(self,date):
+        day_name_dict = dict()
+        day_name_dict[date.strftime('%A').lower()] = True
+        services = models.Service.objects.filter(start_date__lte=date,
+                                                 end_date__gte=date)
+        services = services.filter(**day_name_dict)
+
+        today_trips = models.Trip.objects.filter(service__in=services).prefetch_related('stop_times')
         serializer = self.get_serializer(today_trips, many=True)
         return Response(serializer.data)

@@ -18,11 +18,23 @@ class StopSerializer(serializers.ModelSerializer):
         )
 
 
+class StopTimeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.StopTime
+        fields = (
+            'arrival_time',
+            'departure_time'
+        )
+
+
 class TripSerializer(serializers.ModelSerializer):
     id = fields.CharField(source='trip_id')
+    stop_times = StopTimeSerializer(many=True)
 
     class Meta:
         model = models.Trip
         fields = (
             'id',
+            'stop_times'
         )
+
