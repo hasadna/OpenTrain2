@@ -11,6 +11,14 @@ from django.utils import timezone
 LOGGER = logging.getLogger(__name__)
 
 
+def get_localtime_now():
+    return timezone.now().astimezone(timezone.get_default_timezone())
+
+
+def get_localtime_today():
+    return timezone.now().astimezone(timezone.get_default_timezone()).date()
+
+
 def get_utc_time_underscored():
     """ return UTC time as underscored, to timestamp folders """
     t = datetime.datetime.utcnow()

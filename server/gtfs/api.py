@@ -20,7 +20,7 @@ class TripsViewSet(GenericViewSet):
 
     @list_route(url_path='date/today')
     def today(self, request):
-        return self.trips_for_date(common.ot_utils.get_today())
+        return self.trips_for_date(common.ot_utils.get_localtime_today())
 
     @list_route(url_path='date/(?P<year>\d+)-(?P<month>\d+)-(?P<day>\d+)')
     def date(self, request,year,month,day):
