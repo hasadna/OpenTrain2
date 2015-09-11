@@ -4,7 +4,14 @@
             תחנת מוצא
         </td>
         <td>
-                <input type="text" class="form-control" id="from_stop" placeholder="תחנת מוצא">
+                <input type="text"
+                       ng-model="input.from_stop"
+                       class="form-control"
+                       id="from_stop"
+                       placeholder="תחנת מוצא"
+                       typeahead-editable="false"
+                       typeahead="stop.name for stop in stops "
+                        >
         </td>
     </tr>
         <tr>

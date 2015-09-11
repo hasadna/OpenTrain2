@@ -1,4 +1,4 @@
-var app = angular.module('Gtfs', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.buttons']);
+var app = angular.module('Gtfs', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.buttons','my.utils']);
 
 var baseDir = '/static/gtfs/app'
 
@@ -20,12 +20,20 @@ function($routeProvider) {
 }]);
 
 
-app.controller('SelectStopsController',['MyHttp','$scope',
+app.controller('SelectStopsController',['$scope','MyHttp',
     function($scope,MyHttp) {
-        console.log('123');
         MyHttp.get('/api/gtfs/stops/')
-            .success(function(stops) {
-                $scope.stops = stops;
+            .then(function(data) {
+                $scope.stops = data;
+                $scope.stops.sort(function(s1,s2) {
+                    if (s1.name > s2.name) {
+                        return 1;
+                    }
+                    if (s1.name < s2.name) {
+                        return -1;
+                    }
+                    return 0;
+                })
             })
     }
 ]);
