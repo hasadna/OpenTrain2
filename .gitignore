@@ -65,3 +65,5 @@ target/
 tmp_data
 server/db.sqlite3-journal
 
+local_settings.py
+
