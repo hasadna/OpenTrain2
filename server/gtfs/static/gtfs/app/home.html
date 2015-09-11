@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html ng-app="Gtfs" ng-controller="GtfsController">
+    <head>
+        <title>רכבת פתוחה</title>
+        <meta property="og:title" content="רכבת פתוחה - לוז" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="חיפוז לוז - אתר פנימי" />
+
+        <link rel="stylesheet" href="/static/gtfs/app/css/main.css">
+        <link rel="stylesheet" href="/static/gtfs/app/bower_components/bootstrap-rtl/dist/css/bootstrap-rtl.min.css">
+    </head>
+    <body ng-class="bodyClass">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/">רכבת<strong>פתוחה</strong></a>
+            </div>
+
+            <span class="navbar-left">
+                <a class="navbar-btn btn btn-primary" href="#/about">אודות</a>
+            </span>
+        </nav>
+
+        <div class="view" ng-view>
+        </div>
+
+        <script src="/static/gtfs/app/bower_components/angular/angular.min.js"></script>
+        <script src="/static/gtfs/app/bower_components/angular-route/angular-route.min.js"></script>
+        <script src="/static/gtfs/app/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <script src="/static/gtfs/app/js/RouteExplorer.js"></script>
+        <script src="/static/gtfs/app/js/Layout.js"></script>
+    </body>
+</html>

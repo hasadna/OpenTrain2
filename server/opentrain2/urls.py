@@ -20,7 +20,7 @@ from django.views.generic.base import RedirectView
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(url='/static/gtfs/home.html', permanent=False),name='home'),
+    url(r'^$', RedirectView.as_view(url='/static/gtfs/app/home.html', permanent=False),name='home'),
     url(r'^data/', include('data.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^gtfs/$', include('gtfs.urls', namespace='gtfs')),
