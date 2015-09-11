@@ -23,6 +23,5 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/static/gtfs/app/home.html', permanent=False),name='home'),
     url(r'^data/', include('data.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^gtfs/$', include('gtfs.urls', namespace='gtfs')),
     url(r'^api/', include('opentrain2.api_urls', namespace='api')),
 ]
