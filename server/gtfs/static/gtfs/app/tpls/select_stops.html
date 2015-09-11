@@ -4,22 +4,54 @@
             תחנת מוצא
         </td>
         <td>
-                <input type="text"
-                       ng-model="input.from_stop"
-                       class="form-control"
-                       id="from_stop"
-                       placeholder="תחנת מוצא"
-                       typeahead-editable="false"
-                       typeahead="stop.name for stop in stops "
-                        >
+            <input type="text"
+                   ng-model="input.from_stop"
+                   class="form-control"
+                   id="from_stop"
+                   placeholder="תחנת מוצא"
+                   typeahead-editable="false"
+                   typeahead="stop.name for stop in stops | filter:$viewValue"
+                    >
         </td>
     </tr>
-        <tr>
+    <tr>
         <td>
             תחנת יעד
         </td>
         <td>
-                <input type="text" class="form-control" id="to_stop" placeholder="תחנת סיום">
+            <input type="text"
+                   ng-model="input.to_stop"
+                   class="form-control"
+                   id="to_stop"
+                   placeholder="תחנת מוצא"
+                   typeahead-editable="false"
+                   typeahead="stop.name for stop in stops | filter:$viewValue"
+                    >
+        </td>
+    </tr>
+    <tr>
+        <td>
+            תאריך
+        </td>
+        <td>
+            <input type="text"
+                   class="form-control"
+                   datepicker-popup="dd/MM/yyyy"
+                   ng-model="input.dt"
+                   is-open="status.opened"
+                   ng-required="true"
+                   close-text="סגור"/>
+              <span class="btn">
+                    <button type="button"
+                            class="btn btn-default"
+                            ng-click="status.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+        </td>
+    </tr>
+    <tr>
+        <td>שעה</td>
+        <td>
+            <timepicker class="select-time" ng-model="input.time" hour-step="1" minute-step="1" show-meridian="false"></timepicker>
         </td>
     </tr>
 </table>

@@ -7,3 +7,7 @@ body {
     padding-right: 10px;
     padding-top: 10px;
 }
+
+.select-time {
+  direction: ltr;
+}
