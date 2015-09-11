@@ -136,6 +136,11 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
+        'error_file': {
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': '/var/log/opentrain2/error.log',
+        },
         'null': {
             'class': 'logging.NullHandler',
         },
@@ -143,14 +148,14 @@ LOGGING = {
 
     'loggers': {
         '': {
-            'handlers': ['console'],
-            'level': 'INFO',
+            'handlers': ['error_file'],
+            'level': 'ERROR',
         },
         'gtfs': {
             'handlers': ['console'],
             'level': 'DEBUG',
-            'propagate': False
         },
+
     }
 }
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<html ng-app="Gtfs" ng-controller="GtfsController">
+<html ng-app="Gtfs">
     <head>
+        <meta charset="utf-8">
         <title>רכבת פתוחה</title>
         <meta property="og:title" content="רכבת פתוחה - לוז" />
         <meta property="og:type" content="website" />
@@ -9,6 +9,7 @@
 
         <link rel="stylesheet" href="/static/gtfs/app/bower_components/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="/static/gtfs/app/bower_components/bootstrap-rtl/dist/css/bootstrap-rtl.min.css">
+        <link rel="stylesheet" href="/static/gtfs/app/bower_components/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="/static/gtfs/app/css/main.css">
     </head>
     <body ng-class="bodyClass">
@@ -16,16 +17,13 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="#/">רכבת<strong>פתוחה</strong></a>
             </div>
-
-            <span class="navbar-left">
-                <a class="navbar-btn btn btn-primary" href="#/about">אודות</a>
-            </span>
         </nav>
 
         <div class="view" ng-view>
         </div>
 
-        <script src="/static/gtfs/app/bower_components/angular/angular.min.js"></script>
+        <script src="/static/gtfs/app/bower_components/angular/angular.js"></script>
+        <!--<script src="/static/gtfs/app/bower_components/angular/angular.min.js.map"></script>-->
         <script src="/static/gtfs/app/bower_components/angular-route/angular-route.min.js"></script>
         <script src="/static/gtfs/app/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
         <script src="/static/gtfs/app/js/gtfs.js"></script>
