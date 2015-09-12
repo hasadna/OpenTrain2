@@ -20,14 +20,12 @@ app.config(['$routeProvider',
     }]);
 
 
-app.controller('SelectStopsController', ['$scope', 'MyHttp',
-    function ($scope, MyHttp) {
+app.controller('SelectStopsController', ['$scope', 'MyHttp','$filter',
+    function ($scope, MyHttp,$filter) {
         $scope.input = {
-            dt: new Date()
+            dt: new Date(),
+            time: new Date()
         };
-
-        $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-        $scope.format = $scope.formats[0];
 
         $scope.status = {
             opened: false
@@ -49,7 +47,20 @@ app.controller('SelectStopsController', ['$scope', 'MyHttp',
                     }
                     return 0;
                 })
+                $scope.input.from_stop = $scope.stops[0];
+                $scope.input.to_stop = $scope.stops[10];
             })
+        $scope.doSearch = function() {
+            MyHttp.get('/api/1/gtfs/trips/between/' ,{
+                date: $filter('date')($scope.input.dt,'dd-MM-yyyy'),
+                time: $filter('date')($scope.input.time,'HH:mm'),
+                from_stop: $scope.input.from_stop.id,
+                to_stop: $scope.input.to_stop.id,
+            }).then(function(trips) {
+                console.log(trips);
+            })
+        }
     }
+
 ]);
 

@@ -1,3 +1,4 @@
+<form ng-submit="doSearch()">
 <table class="select_stop_table">
     <tr>
         <td>
@@ -10,7 +11,8 @@
                    id="from_stop"
                    placeholder="תחנת מוצא"
                    typeahead-editable="false"
-                   typeahead="stop.name for stop in stops | filter:$viewValue"
+                   typeahead="stop as stop.name for stop in stops | filter:$viewValue"
+                   ng-required="true"
                     >
         </td>
     </tr>
@@ -25,7 +27,8 @@
                    id="to_stop"
                    placeholder="תחנת מוצא"
                    typeahead-editable="false"
-                   typeahead="stop.name for stop in stops | filter:$viewValue"
+                   typeahead="stop as stop.name for stop in stops | filter:$viewValue"
+                   ng-required="true"
                     >
         </td>
     </tr>
@@ -34,18 +37,25 @@
             תאריך
         </td>
         <td>
+            <p class="input-group select-date-input-group">
             <input type="text"
                    class="form-control"
                    datepicker-popup="dd/MM/yyyy"
                    ng-model="input.dt"
                    is-open="status.opened"
+                   format-day-header="dd"
+                   custom-class="'eran'"
+                   show-weeks="false"
                    ng-required="true"
-                   close-text="סגור"/>
-              <span class="btn">
+                   close-text="סגור"
+                   clear-text="נקה"
+                    current-text="היום"/>
+              <span class="input-group-btn">
                     <button type="button"
                             class="btn btn-default"
                             ng-click="status.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
+                </p>
         </td>
     </tr>
     <tr>
@@ -54,4 +64,10 @@
             <timepicker class="select-time" ng-model="input.time" hour-step="1" minute-step="1" show-meridian="false"></timepicker>
         </td>
     </tr>
+    <tr>
+        <td colspan="2">
+            <button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+        </td>
+    </tr>
 </table>
+</form>
