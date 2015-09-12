@@ -1,3 +1,4 @@
+from django.db.models.expressions import RawSQL, F
 from django.utils import timezone
 import datetime
 
@@ -9,12 +10,29 @@ from . import models
 from . import serializers
 import common.ot_utils
 
+
+class ParamsParser(object):
+
+    def parse_date_str(self,dt_str):
+        d, m, y = dt_str.split('-')
+        return datetime.date(year=int(y), month=int(m), day=int(d))
+
+    def parse_time_str(self, time_str):
+        h,m = time_str.split(':')
+        return datetime.time(hour=int(h), minute=int(m))
+
+    def combine_and_parse_date_time_str(self, dt_str, time_str):
+        d = self.parse_date_str(dt_str)
+        t = self.parse_time_str(time_str)
+        return timezone.get_default_timezone.localize(datetime.datetime.combine(d,t))
+
+
 class StopsViewSet(ReadOnlyModelViewSet):
     queryset = models.Stop.objects.all()
     serializer_class = serializers.StopSerializer
 
 
-class TripsViewSet(GenericViewSet):
+class TripsViewSet(GenericViewSet, ParamsParser):
     serializer_class = serializers.TripSerializer
     queryset = models.Trip.objects.all()
 
@@ -36,6 +54,35 @@ class TripsViewSet(GenericViewSet):
                                                  end_date__gte=date)
         services = services.filter(**day_name_dict)
 
-        today_trips = models.Trip.objects.filter(service__in=services).prefetch_related('stop_times')
-        serializer = self.get_serializer(today_trips, many=True)
+        date_trips = models.Trip.objects.filter(service__in=services).prefetch_related('stop_times')
+        serializer = self.get_serializer(date_trips, many=True)
         return Response(serializer.data)
+
+    @list_route(url_path='from-to')
+    def fromto(self, request):
+        from_stop = request.query_params.get('from_stop')
+        to_stop = request.query_params.get('to_stop')
+        date = self.parse_date_str(request.query_params.get('date'))
+        time = self.parse_time_str(request.query_params.get('time'))
+        day_name_dict = dict()
+        day_name_dict[date.strftime('%A').lower()] = True
+        services = models.Service.objects.filter(start_date__lte=date,
+                                                 end_date__gte=date)
+        services = services.filter(**day_name_dict)
+
+        trips = models.Trip.objects.filter(service__in=services)
+
+        trips = trips.filter(stop_times__stop_id=from_stop)
+        trips = trips.filter(stop_times__stop_id=to_stop)
+
+        trips = trips.annotate(from_idx=RawSQL("select stop_sequence from gtfs_stoptime where stop_id=%s and trip_id=gtfs_trip.trip_id",(from_stop,)))
+        trips = trips.annotate(to_idx=RawSQL("select stop_sequence from gtfs_stoptime where stop_id=%s and trip_id=gtfs_trip.trip_id",(to_stop,)))
+
+        trips = trips.annotate(delta_idx=F('to_idx')-F('from_idx'))
+        trips = trips.filter(delta_idx__gt=0)
+
+        serializer = self.get_serializer(trips, many=True)
+        return Response(serializer.data)
+
+
+

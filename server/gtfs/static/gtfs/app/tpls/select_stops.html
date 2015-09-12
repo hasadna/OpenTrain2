@@ -2,14 +2,15 @@
 <table class="select_stop_table">
     <tr>
         <td>
-            תחנת מוצא
+            מ
         </td>
         <td>
             <input type="text"
                    ng-model="input.from_stop"
                    class="form-control"
                    id="from_stop"
-                   placeholder="תחנת מוצא"
+                   placeholder="בחר תחנה"
+                   autocomplete="off"
                    typeahead-editable="false"
                    typeahead="stop as stop.name for stop in stops | filter:$viewValue"
                    ng-required="true"
@@ -18,14 +19,15 @@
     </tr>
     <tr>
         <td>
-            תחנת יעד
+            ל
         </td>
         <td>
             <input type="text"
                    ng-model="input.to_stop"
                    class="form-control"
                    id="to_stop"
-                   placeholder="תחנת מוצא"
+                   placeholder="בחר תחנה"
+                   autocomplete="off"
                    typeahead-editable="false"
                    typeahead="stop as stop.name for stop in stops | filter:$viewValue"
                    ng-required="true"
@@ -71,3 +73,24 @@
     </tr>
 </table>
 </form>
+<div class="row" ng-show="trips && trips.length > 0">
+    <table class="table">
+        <tr>
+            <th>תחנה</th>
+            <th>מזהה</th>
+            <th ng-repeat="trip in trips">{{trip.id}}</th>
+        </tr>
+        <tr ng-repeat="stop in tripsStops">
+            <td>
+                {{stop.name}}
+            </td>
+            <td>
+                {{stop.id}}
+            </td>
+            <td ng-repeat="trip in trips">
+                {{getArrivalTime(trip,stop.id)}}
+                {{getDepartureTime(trip,stop.id)}}
+            </td>
+        </tr>
+    </table>
+</div>
