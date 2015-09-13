@@ -64,7 +64,7 @@ class TripsViewSet(GenericViewSet, ParamsParser):
         date = self.parse_date_str(request.query_params.get('date'))
         time = self.parse_time_str(request.query_params.get('time'))
         time_in_seconds_since_0 = time.hour * 3600 + time.minute * 60
-        min_time = max(time_in_seconds_since_0 - 3600,0)
+        min_time = max(time_in_seconds_since_0 - 600,0)
         max_time = time_in_seconds_since_0 + 3600
 
 
