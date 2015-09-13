@@ -39,25 +39,7 @@
             תאריך
         </td>
         <td>
-            <p class="input-group select-date-input-group">
-            <input type="text"
-                   class="form-control"
-                   datepicker-popup="dd/MM/yyyy"
-                   ng-model="input.dt"
-                   is-open="status.opened"
-                   format-day-header="dd"
-                   custom-class="'eran'"
-                   show-weeks="false"
-                   ng-required="true"
-                   close-text="סגור"
-                   clear-text="נקה"
-                    current-text="היום"/>
-              <span class="input-group-btn">
-                    <button type="button"
-                            class="btn btn-default"
-                            ng-click="status.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-                </p>
+            <select class="form-control" ng-options="getDayfullName(d) for d in dates" ng-model="input.dt"></select>
         </td>
     </tr>
     <tr>

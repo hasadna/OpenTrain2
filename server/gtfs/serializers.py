@@ -45,3 +45,7 @@ class TripSerializer(serializers.ModelSerializer):
             'stop_times'
         )
 
+
+class DateSerializer(serializers.Serializer):
+    date = fields.CharField()
+

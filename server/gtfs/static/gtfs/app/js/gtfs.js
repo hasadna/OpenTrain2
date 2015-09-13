@@ -20,8 +20,8 @@ app.config(['$routeProvider',
     }]);
 
 
-app.controller('SelectStopsController', ['$scope', 'MyHttp', '$filter', '$window',
-    function ($scope, MyHttp, $filter, $window) {
+app.controller('SelectStopsController', ['$scope', 'MyHttp', '$filter', '$window','$q',
+    function ($scope, MyHttp, $filter, $window,$q) {
         var lastSearchJson = $window.localStorage.getItem('lastSearch');
         var lastSearch = lastSearchJson && angular.fromJson(lastSearchJson);
 
@@ -36,9 +36,24 @@ app.controller('SelectStopsController', ['$scope', 'MyHttp', '$filter', '$window
             'current-text': 'היום',
         }
 
-        MyHttp.get('/api/gtfs/stops/')
-            .then(function (data) {
-                $scope.stops = data;
+        $scope.DAYS = [
+            'ראשון',
+            'שני',
+            'שלישי',
+            'רביעי',
+            'חמישי',
+            'שישי',
+            'שבת',
+        ]
+
+        $q.all([
+            MyHttp.get('/api/gtfs/stops/'),
+            MyHttp.get('/api/gtfs/dates/')
+        ]).then(function (lst) {
+                $scope.stops = lst[0];
+                $scope.dates = lst[1].map(function(d) {
+                    return new Date(d.date);
+                });
                 $scope.stops.sort(function (s1, s2) {
                     if (s1.name > s2.name) {
                         return 1;
@@ -52,15 +67,30 @@ app.controller('SelectStopsController', ['$scope', 'MyHttp', '$filter', '$window
                 $scope.stops.forEach(function (stop) {
                     $scope.stopsByIds[stop.id] = stop;
                 });
+                $scope.input.from_stop = $scope.stops[0];
+                $scope.input.to_stop = $scope.stops[10];
+                $scope.input.dt = $scope.dates[0];
                 if (lastSearch) {
                     for (k in lastSearch) {
-                        $scope.input[k] = lastSearch[k];
+                        if (k == 'dt') {
+                            var lastDate = new Date(lastSearch[k]);
+                            $scope.dates.forEach(function(d) {
+                                if (d.getDate() == lastDate.getDate() &&
+                                    d.getMonth() == lastDate.getMonth() &&
+                                    d.getYear() == lastDate.getYear()) {
+                                    $scope.input.dt = d;
+                                }
+                            });
+
+                        } else {
+                            $scope.input[k] = lastSearch[k];
+                        }
                     }
-                } else {
-                    $scope.input.from_stop = $scope.stops[0];
-                    $scope.input.to_stop = $scope.stops[10];
                 }
             });
+        $scope.getDayfullName = function(d) {
+            return 'יום' + ' ' + $scope.DAYS[d.getDay()] + ' ' + $filter('date')(d,'dd/MM/yyyy');
+        }
         $scope.doSearch = function () {
             $scope.trips = null;
             $scope.from_stop = $scope.input.from_stop;

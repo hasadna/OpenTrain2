@@ -4,7 +4,7 @@ import datetime
 
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
+from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet, ViewSet
 
 from . import models
 from . import serializers
@@ -24,6 +24,21 @@ class ParamsParser(object):
         d = self.parse_date_str(dt_str)
         t = self.parse_time_str(time_str)
         return timezone.get_default_timezone.localize(datetime.datetime.combine(d, t))
+
+
+class DatesViewSet(ViewSet):
+    def list(self, request):
+        start_date = models.Service.objects.earliest('start_date').start_date
+        end_date = models.Service.objects.latest('end_date').end_date
+        dates = []
+        d = start_date
+        while d <= end_date:
+            dates.append({
+                'date': d.isoformat(),
+            })
+            d += datetime.timedelta(days=1)
+        ser = serializers.DateSerializer(dates, many=True)
+        return Response(ser.data)
 
 
 class StopsViewSet(ReadOnlyModelViewSet):
@@ -64,9 +79,8 @@ class TripsViewSet(GenericViewSet, ParamsParser):
         date = self.parse_date_str(request.query_params.get('date'))
         time = self.parse_time_str(request.query_params.get('time'))
         time_in_seconds_since_0 = time.hour * 3600 + time.minute * 60
-        min_time = max(time_in_seconds_since_0 - 600,0)
+        min_time = max(time_in_seconds_since_0 - 600, 0)
         max_time = time_in_seconds_since_0 + 3600
-
 
         day_name_dict = dict()
         day_name_dict[date.strftime('%A').lower()] = True
