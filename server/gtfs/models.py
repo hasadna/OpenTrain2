@@ -94,6 +94,12 @@ class Trip(GTFSModel):
     str_shape_id = models.CharField(max_length=100)
     shape = models.ForeignKey('Shape', null=True)
 
+    def get_stop_time(self, stop_id):
+        for stop_time in self.stop_times.all():
+            if stop_time.stop_id == stop_id:
+                return stop_time
+        raise Exception('Cannot find stop_time with stop_id = {0}'.format(stop_id))
+
     def __unicode__(self):
         return self.trip_id
 
@@ -137,10 +143,17 @@ class StopTime(GTFSModel):
     filename = "stop_times.txt"
     trip = models.ForeignKey('Trip',related_name='stop_times')
     arrival_time = models.CharField(max_length=20)
+    arrival_seconds_since_0 = models.IntegerField(null=True)
     departure_time = models.CharField(max_length=20)
+    departure_seconds_since_0 = models.IntegerField(null=True)
     stop = models.ForeignKey('Stop', null=True)
     stop_sequence = models.IntegerField()
     str_stop_id = models.CharField(max_length=20, default='')
+
+    @classmethod
+    def time_string_to_seconds(cls, time_str):
+        h,m,s=(int(x) for x in time_str.split(':'))
+        return h*3600 + m*60 + s
 
     @classmethod
     def deser(cls, row):
@@ -148,6 +161,8 @@ class StopTime(GTFSModel):
         result.trip_id = row['trip_id']
         result.arrival_time = row['arrival_time']
         result.departure_time = row['departure_time']
+        result.arrival_seconds_since_0 = cls.time_string_to_seconds(result.arrival_time)
+        result.departure_seconds_since_0 = cls.time_string_to_seconds(result.departure_time)
         result.stop_sequence = int(row['stop_sequence'])
         result.str_stop_id = row['stop_id']
         return result

@@ -23,7 +23,7 @@ app.config(['$routeProvider',
 app.controller('SelectStopsController', ['$scope', 'MyHttp', '$filter', '$window',
     function ($scope, MyHttp, $filter, $window) {
         var lastSearchJson = $window.localStorage.getItem('lastSearch');
-        var lastSearch = lastSearchJson && JSON.parse(lastSearchJson);
+        var lastSearch = lastSearchJson && angular.fromJson(lastSearchJson);
 
         $scope.status = {
             opened: false
@@ -53,8 +53,9 @@ app.controller('SelectStopsController', ['$scope', 'MyHttp', '$filter', '$window
                     $scope.stopsByIds[stop.id] = stop;
                 });
                 if (lastSearch) {
-                    $scope.input.from_stop = $scope.stopsByIds[lastSearch.from_stop.id]
-                    $scope.input.to_stop = $scope.stopsByIds[lastSearch.to_stop.id]
+                    for (k in lastSearch) {
+                        $scope.input[k] = lastSearch[k];
+                    }
                 } else {
                     $scope.input.from_stop = $scope.stops[0];
                     $scope.input.to_stop = $scope.stops[10];
@@ -64,7 +65,7 @@ app.controller('SelectStopsController', ['$scope', 'MyHttp', '$filter', '$window
             $scope.trips = null;
             $scope.from_stop = $scope.input.from_stop;
             $scope.to_stop = $scope.input.to_stop;
-            $window.localStorage.setItem('lastSearch',JSON.stringify($scope.input));
+            $window.localStorage.setItem('lastSearch',angular.toJson($scope.input));
             MyHttp.get('/api/gtfs/trips/from-to/', {
                 date: $filter('date')($scope.input.dt, 'dd-MM-yyyy'),
                 time: $filter('date')($scope.input.time, 'HH:mm'),
