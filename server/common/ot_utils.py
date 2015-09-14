@@ -2,10 +2,8 @@ import datetime
 import zipfile
 import os
 import time
-import pytz
 import logging
 
-from django.conf import settings
 from django.utils import timezone
 
 LOGGER = logging.getLogger(__name__)
@@ -37,7 +35,7 @@ def ftp_get_file(host, remote_name, local_path):
     f = FTP(host)
     f.login()
     fh = open(local_path, 'wb')
-    f.retrbinary('RETR %s' % (remote_name), fh.write)
+    f.retrbinary('RETR {0}'.format(remote_name), fh.write)
     fh.close()
     f.quit()
     LOGGER.info("Copied from host %s: %s => %s", host, remote_name, local_path)
@@ -80,31 +78,12 @@ def get_utc_now():
     return datetime.datetime.utcnow().replace(tzinfo=timezone.utc)
 
 
-def get_localtime_now():
-    return get_localtime(get_utc_now())
-
-def get_localtime(dt):
-    tz = pytz.timezone(settings.TIME_ZONE)
-    if dt.tzinfo:
-        return dt.astimezone(tz)
-    else:
-        return tz.localize(dt)
-
-
-def get_normal_time(dt):
-    local_dt = get_localtime(dt)
-    h = local_dt.hour
-    m = local_dt.minute
-    s = local_dt.second
-    return h * 3600 + 60 * m + s
-
-
 def md5_for_file(path, block_size=32768):
-    '''
+    """
     Block size directly depends on the block size of your filesystem
     to avoid performances issues
     Here I have blocks of 4096 octets (Default NTFS)
-    '''
+    """
     import hashlib
     md5 = hashlib.md5()
     with open(path, 'rb') as f:

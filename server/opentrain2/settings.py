@@ -26,7 +26,7 @@ SECRET_KEY = 'kk#6w+a)55ali3mzc@1&2b-jrb!h1j6k@5bfez#qgc*&24h5-f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -94,8 +94,6 @@ DATABASES = {
     }
 }
 
-
-ALLOWED_HOSTS = ['*']
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

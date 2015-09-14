@@ -23,6 +23,7 @@ class Importer(object):
         with open(full_path) as fh:
             header = fh.readline().strip().split(',')
             len_header = len(header)
+            idx = 0
             for idx, row in enumerate(fh):
                 values = row.strip().split(',')
                 assert len_header == len(values)
@@ -48,13 +49,13 @@ class Importer(object):
         self.import_stop_times()
         self.import_stops()
         self.import_shapes()
-        models = apps.get_app_config('gtfs').models.values()
-        for model in models:
+        gtfs_models = apps.get_app_config('gtfs').models.values()
+        for model in gtfs_models:
             LOGGER.info('model %s: %s', model.__name__, model.objects.count())
 
     def import_agency(self):
         LOGGER.info('importing agency')
-        agencies = self.read_txt('agency.txt', cond=lambda a: 'rail' in a['agency_url'])
+        agencies = self.read_txt('agency.txt', cond=lambda x: 'rail' in x['agency_url'])
         assert len(agencies) == 1
         a = models.Agency.from_row(agencies[0])
         self.agency_id = a.agency_id
@@ -105,7 +106,7 @@ class Importer(object):
         for p in shape_points:
             points_for_shape[p['shape_id']].append(p)
         rows = []
-        for shape_id, points in points_for_shape.iteritems():
+        for shape_id, points in points_for_shape.items():
             rows.append({
                 'shape_id': shape_id,
                 'points': [[float(p['shape_pt_lat']), float(p['shape_pt_lon'])] for p in

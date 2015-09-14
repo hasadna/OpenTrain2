@@ -11,7 +11,7 @@ from . import serializers
 import common.ot_utils
 
 
-class ParamsParser(object):
+class ParamsParser:
     def parse_date_str(self, dt_str):
         d, m, y = dt_str.split('-')
         return datetime.date(year=int(y), month=int(m), day=int(d))

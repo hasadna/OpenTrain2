@@ -141,7 +141,7 @@ class Stop(GTFSModel):
 
 class StopTime(GTFSModel):
     filename = "stop_times.txt"
-    trip = models.ForeignKey('Trip',related_name='stop_times')
+    trip = models.ForeignKey('Trip', related_name='stop_times')
     arrival_time = models.CharField(max_length=20)
     arrival_seconds_since_0 = models.IntegerField(null=True)
     departure_time = models.CharField(max_length=20)
@@ -152,8 +152,8 @@ class StopTime(GTFSModel):
 
     @classmethod
     def time_string_to_seconds(cls, time_str):
-        h,m,s=(int(x) for x in time_str.split(':'))
-        return h*3600 + m*60 + s
+        h, m, s = (int(x) for x in time_str.split(':'))
+        return h * 3600 + m * 60 + s
 
     @classmethod
     def deser(cls, row):

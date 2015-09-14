@@ -17,7 +17,7 @@ def download_gtfs_file(force=False):
     time_suffix = ot_utils.get_utc_time_underscored()
     if not os.path.exists(GTFS_DATA_DIR):
         ot_utils.mkdir_p(GTFS_DATA_DIR)
-    tmp_file = '/tmp/%s_tmp.zip' % (time_suffix)
+    tmp_file = '/tmp/{0}_tmp.zip'.format(time_suffix)
     LOGGER.info('downloading GTFS to tmp file')
     ot_utils.ftp_get_file(MOT_FTP, FILE_NAME, tmp_file)
     if not force:
@@ -31,7 +31,7 @@ def download_gtfs_file(force=False):
                 last_file = os.path.join(last_dir, FILE_NAME)
                 try:
                     last_md5 = ot_utils.md5_for_file(last_file)
-                except Exception, e:
+                except Exception as e:
                     LOGGER.exception('failed in md5 for last file - ignoring')
                     last_md5 = 'error_in_md5'
                 if last_md5 == tmp_md5:
@@ -71,6 +71,6 @@ def clean_all():
 
 def create_all(dirname):
     clean_all()
-    import importer
-    i = importer.Importer(dirname)
+    from .importer import Importer
+    i = Importer(dirname)
     i.import_all()
