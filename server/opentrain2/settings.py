@@ -42,7 +42,8 @@ INSTALLED_APPS = (
     'data',
     'gtfs',
     'common',
-    'rest_framework'
+    'rest_framework',
+    'rest_framework_swagger'
 )
 
 MIDDLEWARE_CLASSES = (

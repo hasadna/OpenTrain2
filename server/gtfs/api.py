@@ -28,6 +28,9 @@ class ParamsParser:
 
 class DatesViewSet(ViewSet):
     def list(self, request):
+        """
+            return list of all available dates
+        """
         start_date = models.Service.objects.earliest('start_date').start_date
         end_date = models.Service.objects.latest('end_date').end_date
         dates = []
@@ -52,10 +55,16 @@ class TripsViewSet(GenericViewSet, ParamsParser):
 
     @list_route(url_path='date/today')
     def today(self, request):
+        """
+        returns list of trips for <b>today</b>
+         """
         return self.trips_for_date(common.ot_utils.get_localtime_today())
 
     @list_route(url_path='date/(?P<year>\d+)-(?P<month>\d+)-(?P<day>\d+)')
     def date(self, request, year, month, day):
+        """
+        returns list of trips for given date
+        """
         d = datetime.date(year=int(year),
                           month=int(month),
                           day=int(day))
@@ -74,6 +83,9 @@ class TripsViewSet(GenericViewSet, ParamsParser):
 
     @list_route(url_path='from-to')
     def fromto(self, request):
+        """
+        returns list of trips from <b>from_stop</b> to <b>to_stop</b>
+        """
         from_stop = request.query_params.get('from_stop')
         to_stop = request.query_params.get('to_stop')
         date = self.parse_date_str(request.query_params.get('date'))

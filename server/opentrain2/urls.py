@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^data/', include('data.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('opentrain2.api_urls', namespace='api')),
+    url(r'^docs/', include('rest_framework_swagger.urls')),
 ]
