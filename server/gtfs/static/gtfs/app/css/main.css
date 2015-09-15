@@ -7899,4 +7899,9 @@ table.table .table-header-primary th {
 table.table .table-header-secondary th {
   font-size: 10pt; }
 
+body h1 > .logo {
+  display: block;
+  margin: 0 auto 20px;
+  max-height: 140px; }
+
 /*# sourceMappingURL=main.css.map */

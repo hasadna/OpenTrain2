@@ -1,0 +1,10 @@
+body {
+  h1 {
+    > .logo {
+      display: block;
+      margin: 0 auto 20px;
+      max-height: 140px;
+    }
+  }
+}
+
