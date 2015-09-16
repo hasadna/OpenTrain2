@@ -1,64 +1,73 @@
 <h1>
-        <img class="logo" src="/static/gtfs/app/img/opentrain-logo-title.png" alt="רכבת פתוחה"/>
-        חיפוש בלוח הזמנים
+    <img class="logo" src="/static/gtfs/app/img/opentrain-logo-title.png" alt="רכבת פתוחה"/>
+    חיפוש בלוח הזמנים
 </h1>
-<form ng-submit="doSearch()">
-<table class="select_stop_table">
-    <tr>
-        <td>
-            מ
-        </td>
-        <td>
-            <input type="text"
-                   ng-model="input.from_stop"
-                   class="form-control"
-                   id="from_stop"
-                   placeholder="בחר תחנה"
-                   autocomplete="off"
-                   typeahead-editable="false"
-                   typeahead="stop as stop.name for stop in stops | filter:$viewValue"
-                   ng-required="true"
-                    >
-        </td>
-    </tr>
-    <tr>
-        <td>
-            ל
-        </td>
-        <td>
-            <input type="text"
-                   ng-model="input.to_stop"
-                   class="form-control"
-                   id="to_stop"
-                   placeholder="בחר תחנה"
-                   autocomplete="off"
-                   typeahead-editable="false"
-                   typeahead="stop as stop.name for stop in stops | filter:$viewValue"
-                   ng-required="true"
-                    >
-        </td>
-    </tr>
-    <tr>
-        <td>
-            תאריך
-        </td>
-        <td>
-            <select class="form-control" ng-options="getDayfullName(d) for d in dates" ng-model="input.dt"></select>
-        </td>
-    </tr>
-    <tr>
-        <td>שעה</td>
-        <td>
-            <timepicker class="select-time" ng-model="input.time" hour-step="1" minute-step="1" show-meridian="false"></timepicker>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
-        </td>
-    </tr>
-</table>
-</form>
+<div class="row">
+    <div class="col-md-5">
+
+    </div>
+    <div class="col-md-6 center-block">
+        <form ng-submit="doSearch()">
+            <table class="select_stop_table">
+                <tr>
+                    <td>
+                        מ
+                    </td>
+                    <td>
+                        <input type="text"
+                               ng-model="input.from_stop"
+                               class="form-control"
+                               id="from_stop"
+                               placeholder="בחר תחנה"
+                               autocomplete="off"
+                               typeahead-editable="false"
+                               typeahead="stop as stop.name for stop in stops | filter:$viewValue"
+                               ng-required="true"
+                                >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        ל
+                    </td>
+                    <td>
+                        <input type="text"
+                               ng-model="input.to_stop"
+                               class="form-control"
+                               id="to_stop"
+                               placeholder="בחר תחנה"
+                               autocomplete="off"
+                               typeahead-editable="false"
+                               typeahead="stop as stop.name for stop in stops | filter:$viewValue"
+                               ng-required="true"
+                                >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        תאריך
+                    </td>
+                    <td>
+                        <select class="form-control" ng-options="getDayfullName(d) for d in dates"
+                                ng-model="input.dt"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>שעה</td>
+                    <td>
+                        <timepicker class="select-time" ng-model="input.time" hour-step="1" minute-step="1"
+                                    show-meridian="false"></timepicker>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
 <div class="row" ng-show="trips && trips.length > 0">
     <table class="table table-hover">
         <tr>
