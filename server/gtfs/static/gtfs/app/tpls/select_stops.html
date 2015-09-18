@@ -6,7 +6,7 @@
     <div class="col-md-5">
 
     </div>
-    <div class="col-md-6 center-block" class="search-box-div">
+    <div class="col-md-6 center-bloc search-box-div">
         <form ng-submit="doSearch()">
             <table class="select_stop_table">
                 <tr>
@@ -69,6 +69,10 @@
     </div>
 </div>
 <div class="row" ng-show="trips && trips.length > 0">
+    <div class="col-md-1">
+        
+    </div>
+    <div class="col-md-10">
     <table class="table table-hover">
         <tr>
             <th>תחנה</th>
@@ -88,6 +92,7 @@
             </td>
         </tr>
     </table>
+    </div>
 </div>
 <div class="row" ng-show="trips && trips.length == 0">
     <h3>אין תוצאות לחיפוש המבוקש</h3>
