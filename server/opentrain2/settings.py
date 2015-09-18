@@ -158,7 +158,8 @@ LOGGING = {
     }
 }
 
-ADMINS=(('Eran','ekeydar@gmail.com'),)
+ADMINS=(('Eran','ekeydar@gmail.com'),
+        ('Ofer','blueofer@gmail.com'))
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
