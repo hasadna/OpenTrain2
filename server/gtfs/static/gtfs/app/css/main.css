@@ -7903,5 +7903,46 @@ body h1 > .logo {
   display: block;
   margin: 0 auto 20px;
   max-height: 140px; }
+body .search-box-div form {
+  padding-top: 50px;
+  background-image: linear-gradient(to bottom, #124760, #0e374a); }
+  body .search-box-div form h1 {
+    color: #62D3FB; }
+  body .search-box-div form .container {
+    max-width: 600px; }
+    body .search-box-div form .container .row {
+      height: 60px;
+      margin-bottom: 25px; }
+  body .search-box-div form form {
+    background-color: #124760;
+    border-color: #104157;
+    padding: 15px;
+    margin: 15px auto 50px;
+    position: relative; }
+    body .search-box-div form form .row .form-control, body .search-box-div form form .row .btn-primary {
+      height: 60px;
+      border-radius: 0;
+      font-size: 18px;
+      border: none; }
+    body .search-box-div form form .row .form-control {
+      background-color: #f5f7f7; }
+    body .search-box-div form form .error-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      padding: 15px;
+      background-color: white;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center; }
+    body .search-box-div form form .icon-no-results {
+      background-image: url("/static/ui/RouteExplorer/img/no-results.png");
+      width: 270px;
+      height: 270px;
+      display: inline-block; }
 
 /*# sourceMappingURL=main.css.map */
