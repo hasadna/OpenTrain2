@@ -1,12 +1,12 @@
-from rest_framework.decorators import list_route
-from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet, ViewSet
+from rest_framework.viewsets import mixins, GenericViewSet
 
 from . import models
 from . import serializers
 
 
-class NetworkViewSet(ReadOnlyModelViewSet):
+class NetworkViewSet(mixins.CreateModelMixin,
+                     mixins.ListModelMixin,
+                     GenericViewSet):
     queryset = models.Network.objects.all()
     serializer_class = serializers.NetworkSerializer
 
