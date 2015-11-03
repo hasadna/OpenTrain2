@@ -16,16 +16,18 @@ class Network(models.Model):
         return ','.join([self.bssid, self.name])
 
     def get_stop_dict(self):
-        import gtfs.models
+        from gtfs.models import Stop
         try:
-            stop = gtfs.models.Stop.objects.get(stop_id=self.stop_id)
+            stop = Stop.objects.get(stop_id=self.stop_id)
             return {
-                'id': stop.id,
-                'code': stop.code,
+                'id': stop.stop_id,
+                'code': stop.stop_code,
                 'name': stop.stop_name,
             }
-        except gtfs.models.Stop.DoesNotExists:
+        except Stop.DoesNotExist:
             return None
+
+
 class PositionReport(models.Model):
     network = models.ForeignKey(Network)
     latitude = models.DecimalField(max_digits=8, decimal_places=5, default=0)
