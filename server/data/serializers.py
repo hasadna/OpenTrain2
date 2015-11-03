@@ -6,7 +6,7 @@ class NetworkSerializer(serializers.ModelSerializer):
     stop = serializers.DictField(source='get_stop_dict')
     class Meta:
         model = models.Network
-        fields = ('bssid','stop')
+        fields = ('bssid','stop','name')
 
 
 class AddBssidSerializer(serializers.Serializer):
