@@ -14,14 +14,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='network',
             name='stop_code',
-            field=models.CharField(max_length=5, default=None),
-            preserve_default=False,
+            field=models.CharField(default=0, max_length=5),
         ),
         migrations.AddField(
             model_name='network',
             name='stop_id',
-            field=models.CharField(max_length=5, default=0),
-            preserve_default=False,
+            field=models.CharField(default=0, max_length=5),
         ),
         migrations.AlterField(
             model_name='network',

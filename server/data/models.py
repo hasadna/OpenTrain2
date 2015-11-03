@@ -8,8 +8,8 @@ class Network(models.Model):
     name = models.CharField(max_length=100)
     # we don't store the stop since it might change if we erase the GTFS data
     # stop id and stop code are not DB but from the GTFS - not sure what is the fixed one
-    stop_id = models.CharField(max_length=5)
-    stop_code = models.CharField(max_length=5)
+    stop_id = models.CharField(max_length=5,default=0)
+    stop_code = models.CharField(max_length=5,default=0)
     mod_time = models.DateTimeField('modification time', auto_now_add=True)
 
     def __unicode__(self):
@@ -26,7 +26,6 @@ class Network(models.Model):
             }
         except gtfs.models.Stop.DoesNotExists:
             return None
-
 class PositionReport(models.Model):
     network = models.ForeignKey(Network)
     latitude = models.DecimalField(max_digits=8, decimal_places=5, default=0)
