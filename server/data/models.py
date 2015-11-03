@@ -27,6 +27,18 @@ class Network(models.Model):
         except Stop.DoesNotExist:
             return None
 
+    def guess_stop(self):
+        from gtfs.models import Stop
+        if self.stop_id:
+            return
+        try:
+            s = Stop.objects.get(stop_name=self.name)
+            self.stop_id = s.stop_id
+            self.stop_code = s.stop_code
+            self.save()
+        except Stop.DoesNotExist:
+            return
+
 
 class PositionReport(models.Model):
     network = models.ForeignKey(Network)
