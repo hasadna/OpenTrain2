@@ -32,6 +32,7 @@ class Network(models.Model):
         if self.stop_id:
             return
         try:
+            print('Guessed ok for {0}'.format(self.name))
             s = Stop.objects.get(stop_name=self.name)
             self.stop_id = s.stop_id
             self.stop_code = s.stop_code
