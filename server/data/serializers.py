@@ -8,10 +8,11 @@ class NetworkSerializer(serializers.ModelSerializer):
         model = models.Network
         fields = ('bssid','stop')
 
+
 class AddBssidSerializer(serializers.Serializer):
-    stop_id = models.IntegerField(required=True)
-    bssid = models.CharField(required=True)
-    name = models.CharField(required=True)
+    stop_id = serializers.IntegerField(required=True)
+    bssid = serializers.CharField(required=True)
+    name = serializers.CharField(required=True)
 
 
 
