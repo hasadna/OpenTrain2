@@ -10,5 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         dirname = gtfs.utils.download_gtfs_file(force=options['force'])
+        if dirname is None: # same same
+            return
         gtfs.utils.create_all(dirname=dirname)
         gtfs.utils.write_success()
