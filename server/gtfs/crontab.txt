@@ -1,5 +1,6 @@
 OT_HOME=/home/opentrain/work/OpenTrain2/server
 LOG=/var/log/opentrain2/cron.log
 
-*/2 * * * * cd $OT_HOME && python manage.py downloadgtfs >> $LOG 2>&1
+*/2 * * * * $OT_HOME/run_manage
+_py.sh downloadgtfs >> $LOG 2>&1
 
