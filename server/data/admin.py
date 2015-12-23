@@ -5,10 +5,7 @@ from .models import Network, PositionReport
 
 
 class NetworkAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None, {'fields': ['bssid', 'name']}),
-    ]
-    list_display = ('bssid', 'name')
+    list_display = ('bssid', 'name', 'stop_id', 'stop_code', 'mod_time')
 
 
 class PositionReportAdmin(admin.ModelAdmin):
